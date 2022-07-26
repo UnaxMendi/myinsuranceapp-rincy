@@ -8,7 +8,7 @@ pipeline {
                 git branch: 'deploy',url: 'https://github.com/UnaxMendi/myinsuranceapp-rincy.git'
             }
         }        
-        stage('Requirements') {
+        /*stage('Requirements') {
             steps {
                 echo 'Installing dependencies...'
                 sh 'pip3 install -r requirements.txt'
@@ -40,14 +40,14 @@ pipeline {
                 withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
                     sh 'docker push 618383339/myinsuranceapp'
                 }
-                /*withDockerRegistry([ credentialsId: "acr-credentials", url: "risunmyinsuranceapp.azurecr.io" ]) {
-                    sh 'docker push risunmyinsuranceapp.azurecr.io/myinsuranceapp:v3'
-                }*/
+                //withDockerRegistry([ credentialsId: "acr-credentials", url: "risunmyinsuranceapp.azurecr.io" ]) {
+                //    sh 'docker push risunmyinsuranceapp.azurecr.io/myinsuranceapp:v3'
+                //}
             }
-        }
+        }*/
         stage('Apply Kubernetes ') {
             steps {
-                withKubeConfig([credentialsId: 'k8-credentials',serverUrl:'joint-macaw-k8s-307b998b.hcp.eastasia.azmk8s.io']) {
+                withKubeConfig([credentialsId: 'k8-credentials',serverUrl:'https://joint-macaw-k8s-307b998b.hcp.eastasia.azmk8s.io']) {
                     sh 'kubectl apply -f kubernetes/risun_dp.yaml'
                     sh 'kubectl apply -f kubernetes/risun_svc.yaml'
                     sh 'kubectl port-forward service/myinsuranceapp 5000:5000 &'
