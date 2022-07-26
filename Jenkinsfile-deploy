@@ -57,7 +57,7 @@ pipeline {
         stage('External acceptance tests') {
             steps{
                 echo 'External acceptance tests...'
-                sh 'pytohn3 runserver.py'
+                sh 'python3 runserver.py'
                 sh 'python3 -m unittest discover -s tests/acceptance-request -v'
             }
         }
