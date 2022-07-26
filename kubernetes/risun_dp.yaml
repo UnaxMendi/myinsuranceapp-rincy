@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: myinsuranceapp
-        image: 618383339/risun_myinsuranceapp
+        image: 618383339/myinsuranceapp
         ports:
         - name: http
           containerPort: 5000

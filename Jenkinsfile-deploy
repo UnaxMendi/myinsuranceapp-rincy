@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'deploy',url: 'https://github.com/RincyIssac/myinsuranceapp.git'
+                git branch: 'deploy',url: 'https://github.com/UnaxMendi/myinsuranceapp-rincy.git'
             }
         }        
         stage('Requirements') {
@@ -30,7 +30,7 @@ pipeline {
         stage('Create image') {
             steps {
                 echo 'creating image...'
-                sh 'docker build -t 618383339/risun_myinsuranceapp -f Dockerfile .'
+                sh 'docker build -t 618383339/myinsuranceapp -f Dockerfile .'
                 //sh 'docker build -t risunmyinsuranceapp.azurecr.io/myinsuranceapp:v3 -f Dockerfile . .'
             }
         } 
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 echo 'pushing image..'
                 withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
-                    sh 'docker push 618383339/risun_myinsuranceapp'
+                    sh 'docker push 618383339/myinsuranceapp'
                 }
                 /*withDockerRegistry([ credentialsId: "acr-credentials", url: "risunmyinsuranceapp.azurecr.io" ]) {
                     sh 'docker push risunmyinsuranceapp.azurecr.io/myinsuranceapp:v3'
@@ -47,11 +47,9 @@ pipeline {
         }
         stage('Apply Kubernetes ') {
             steps {
-                withKubeConfig([credentialsId: 'k8-credentials']) {
+                *withKubeConfig([credentialsId: 'k8-credentials',serverUrl:'joint-macaw-k8s-307b998b.hcp.eastasia.azmk8s.io']) {
                     sh 'kubectl apply -f kubernetes/risun_dp.yaml'
                     sh 'kubectl apply -f kubernetes/risun_svc.yaml'
-                    //sh 'kubectl apply -f kubernetes/risun-az_dp.yaml
-                    //sh 'kubectl apply -f kubernetes/risun-az_svc.yaml'
                     sh 'kubectl port-forward service/myinsuranceapp 5000:5000 &'
                 }
             }
