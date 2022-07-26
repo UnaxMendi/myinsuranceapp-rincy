@@ -47,7 +47,7 @@ pipeline {
         }
         stage('Apply Kubernetes ') {
             steps {
-                *withKubeConfig([credentialsId: 'k8-credentials',serverUrl:'joint-macaw-k8s-307b998b.hcp.eastasia.azmk8s.io']) {
+                withKubeConfig([credentialsId: 'k8-credentials',serverUrl:'joint-macaw-k8s-307b998b.hcp.eastasia.azmk8s.io']) {
                     sh 'kubectl apply -f kubernetes/risun_dp.yaml'
                     sh 'kubectl apply -f kubernetes/risun_svc.yaml'
                     sh 'kubectl port-forward service/myinsuranceapp 5000:5000 &'
