@@ -35,15 +35,16 @@ class TestApp(unittest.TestCase):
         print(f"get_user_products: {data}")
         self.assertTrue(response.status_code > 400)
 
-    def test_7_get_userid(self):
+    def test_7_get_users(self):
         tester = app.test_client(self)
         headers = {"Authorization": f"Bearer {TestApp.token}"}
-        response = tester.get('/api/v1/users/8', content_type='application/json', headers=headers)
+        response = tester.get('/api/v1/users/', content_type='application/json', headers=headers)
         data=json.loads(response.text)
-        ##expected='address' : 'kerala street', 'birthdate': '1994', 'city': 'Tvm', 'country': 'India', 'email': 'r@r.com', 'fullname': 'Rincy Issac', 'password': 'test123'
-        print(f"get 8: {data}")
+        print(f"get : {data}")
         self.assertEqual(response.status_code, 200)
-        ##self.assertEqual(data, expected)
+        self.assertTrue(len(data)>0)
+        self.assertIsNotNone(data[0] ["fullname"])
+
 
     def test_8_post(self):
         tester = app.test_client(self)
