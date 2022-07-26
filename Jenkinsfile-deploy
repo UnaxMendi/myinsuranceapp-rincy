@@ -8,7 +8,7 @@ pipeline {
                 git branch: 'deploy',url: 'https://github.com/UnaxMendi/myinsuranceapp-rincy.git'
             }
         }        
-        /*stage('Requirements') {
+        stage('Requirements') {
             steps {
                 echo 'Installing dependencies...'
                 sh 'pip3 install -r requirements.txt'
@@ -44,7 +44,7 @@ pipeline {
                 //    sh 'docker push risunmyinsuranceapp.azurecr.io/myinsuranceapp:v3'
                 //}
             }
-        }*/
+        }
         stage('Apply Kubernetes ') {
             steps {
                 withKubeConfig([credentialsId: 'k8-credentials',serverUrl:'https://joint-macaw-k8s-307b998b.hcp.eastasia.azmk8s.io']) {
