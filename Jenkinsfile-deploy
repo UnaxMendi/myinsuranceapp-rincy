@@ -57,8 +57,8 @@ pipeline {
         stage('External acceptance tests') {
             steps{
                 echo 'External acceptance tests...'
-                //sh 'python3 runserver.py'
-                //sh 'python3 -m unittest discover -s tests/acceptance-request -v'
+                sh 'python3 runserver.py'
+                sh 'python3 -m unittest discover -s tests/acceptance-request -v'
                 //sh 'pkill -f "port-forward"'
             }
         }
@@ -75,7 +75,7 @@ pipeline {
         }
         cleanup{
             echo 'post do this when cleanup...'
-            sh 'pkill -f "port-forward"'
+            sh 'kill -f "port-forward"'
             deleteDir()
         }
     }
