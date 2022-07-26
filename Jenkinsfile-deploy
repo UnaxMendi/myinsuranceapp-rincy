@@ -59,6 +59,7 @@ pipeline {
                 echo 'External acceptance tests...'
                 sh 'python3 runserver.py'
                 sh 'python3 -m unittest discover -s tests/acceptance-request -v'
+                sh 'pkill -f "port-forward"'
             }
         }
     }
