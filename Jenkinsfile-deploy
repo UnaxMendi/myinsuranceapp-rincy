@@ -51,13 +51,13 @@ pipeline {
                     sh 'kubectl apply -f kubernetes/risun_dp.yaml'
                     sh 'kubectl apply -f kubernetes/risun_svc.yaml'
                     sh 'kubectl port-forward service/myinsuranceapp 5000:5000 &'
+                    sleep 5 // give 5 secs to stablish the prot forward
                 }
             }
         }
         stage('External acceptance tests') {
             steps{
                 echo 'External acceptance tests...'
-                sh 'python3 runserver.py'
                 sh 'python3 -m unittest discover -s tests/acceptance-request -v'
                 //sh 'pkill -f "port-forward"'
             }
